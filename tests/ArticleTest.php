@@ -11,7 +11,7 @@ class ArticleTest extends TestCase
         $this->article = new App\Article;
     }
 
-    public function testTitleIsEmptyByDefault()
+    /*public function testTitleIsEmptyByDefault()
     {
         $this->assertEmpty($this->article->title);
     }
@@ -43,5 +43,25 @@ class ArticleTest extends TestCase
     {
         $this->article->title = "Read! This! Now!";
         $this->assertEquals("Read_This_Now", $this->article->getSlug());
+    }*/
+
+    public function titleProvider()
+    {
+        return [
+            ["An example article", "An_example_article"],
+            ["An   example  \n   article", "An_example_article"],
+            [" An   example  \n   article ", "An_example_article"],
+            ["Read! This! Now!", "Read_This_Now"],
+        ];
+    }
+
+    /**
+     * @dataProvider titleProvider
+     */
+    public function testslug($title, $slug)
+    {
+        $this->article->title = $title;
+
+        $this->assertEquals($slug, $this->article->getSlug());
     }
 }
